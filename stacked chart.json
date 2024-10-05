@@ -1,0 +1,94 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 700,
+  "height": 400,
+  "title": {"text": "Total Wealth of Billionaires by Country and Category"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/TayQing/3179/refs/heads/main/Billionaires%20Statistics%20Dataset%202.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {
+      "aggregate": [{"op": "sum", "field": "finalWorth", "as": "total_wealth"}],
+      "groupby": ["country", "category"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "bar"},
+      "encoding": {
+        "x": {
+          "field": "country",
+          "type": "nominal",
+          "title": "Country",
+          "sort": "y"
+        },
+        "y": {
+          "field": "total_wealth",
+          "type": "quantitative",
+          "title": "Total Wealth (in billions)",
+          "axis": {"grid": false},
+          "scale": {"domain": [0, 4500000]}
+        },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Automative",
+              "Technology",
+              "Fashion & Retail",
+              "Finance & Investments",
+              "Media & Entertainment",
+              "Telecom",
+              "Diversified",
+              "Food & Beverage",
+              "Logistics",
+              "Gambling & Casinos",
+              "Manufacturing",
+              "Real Estate",
+              "Metals & Mining",
+              "Energy",
+              "Healthcare",
+              "Service",
+              "Construction & Engineering",
+              "Sports"
+            ],
+            "range": [
+              "#FFD700",
+              "#FFEB3B",
+              "#B8860B",
+              "#D4AF37",
+              "#FFBF00",
+              "#DAA520",
+              "#FFC512",
+              "#F4C430",
+              "#F8DE7E",
+              "#CFB53B",
+              "#C5B358",
+              "#FCC200",
+              "#DA9100",
+              "#FFDB58",
+              "#FFF44F",
+              "#EEDC82",
+              "#E4D00A",
+              "#F0DC82"
+            ]
+          },
+          "title": "Category"
+        },
+        "tooltip": [
+          {"field": "country", "type": "nominal", "title": "Country"},
+          {"field": "category", "type": "nominal", "title": "Category"},
+          {
+            "field": "total_wealth",
+            "type": "quantitative",
+            "title": "Total Wealth",
+            "format": "$,.2f"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {"background": "#fffde5"}
+}

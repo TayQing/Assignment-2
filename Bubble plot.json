@@ -1,0 +1,103 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Age vs. Wealth of Billionaires by Gender",
+    "fontSize": 16,
+    "anchor": "start"
+  },
+  "width": 700,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/TayQing/3179/refs/heads/main/Billionaires%20Statistics%20Dataset%202.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum.age > 0"},
+    {
+      "aggregate": [{"op": "sum", "field": "finalWorth", "as": "total_wealth"}],
+      "groupby": ["age", "personName", "gender"]
+    },
+    {"filter": "datum.total_wealth >= Wealth_Above"}
+  ],
+  "params": [
+    {
+      "name": "Wealth_Above",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": 0,
+        "max": 210000,
+        "step": 5000,
+        "name": "Minimum Wealth: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "circle", "tooltip": true, "size": 100},
+      "selection": {
+        "gender_highlight": {
+          "type": "multi",
+          "fields": ["gender"],
+          "bind": "legend"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "age",
+          "type": "quantitative",
+          "title": "Age",
+          "axis": {"grid": false}
+        },
+        "y": {
+          "field": "total_wealth",
+          "type": "quantitative",
+          "title": "Total Wealth (in billions)",
+          "axis": {"grid": false}
+        },
+        "color": {
+          "field": "gender",
+          "type": "nominal",
+          "title": "Gender",
+          "scale": {"domain": ["F", "M"], "range": ["#275154", "#e87f10"]}
+        },
+        "opacity": {
+          "condition": {"selection": "gender_highlight", "value": 1},
+          "value": 0.2
+        },
+        "tooltip": [
+          {"field": "personName", "type": "nominal", "title": "Billionaire"},
+          {"field": "age", "type": "quantitative", "title": "Age"},
+          {"field": "gender", "type": "nominal", "title": "Gender"},
+          {
+            "field": "total_wealth",
+            "type": "quantitative",
+            "title": "Total Wealth",
+            "format": "$,.2f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 9,
+        "dy": 0,
+        "fontSize": 7,
+        "fontStyle": "italic"
+      },
+      "encoding": {
+        "text": {"field": "personName", "type": "nominal"},
+        "x": {"field": "age", "type": "quantitative"},
+        "y": {"field": "total_wealth", "type": "quantitative"},
+        "color": {"value": "gray"},
+        "opacity": {
+          "condition": {"test": "datum['total_wealth'] > 50000", "value": 1},
+          "value": 0
+        }
+      }
+    }
+  ],
+  "config": {"background": "#fffde5"}
+}

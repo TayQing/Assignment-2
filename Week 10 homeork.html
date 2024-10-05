@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualization Dashboard</title>
+
+  <!-- Import Vega-Lite and Vega-Embed -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #fffde5;
+    }
+    h1 {
+      color: #BD9B16; /* Match the color theme */
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .graph-container {
+      margin: 20px;
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Visualization Dashboard</h1>
+
+  <div class="container">
+    <!-- Choropleth Map -->
+    <div class="graph-container">
+      <h2>Choropleth Map: Total Wealth by Country</h2>
+      <div id="choropleth_map"></div>
+    </div>
+
+    <!-- Stacked Bar Chart -->
+    <div class="graph-container">
+      <h2>Stacked Bar Chart: Total Wealth by Country and Category</h2>
+      <div id="stacked_bar_chart"></div>
+    </div>
+
+    <!-- Bubble Chart -->
+    <div class="graph-container">
+      <h2>Bubble Chart: Age vs Wealth of Billionaires</h2>
+      <div id="bubble_chart"></div>
+    </div>
+  </div>
+
+</body>
+</html>
